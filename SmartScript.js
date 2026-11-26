@@ -1,9 +1,13 @@
 /**
- * mihomo配置覆写脚本（全量版）
- * 作者：AIsouler
- * 源仓库：https://github.com/AIsouler/MyClash
- * 脚本链接：https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js
- * 友情推荐，非常好用、省电且内存占用低的代理软件：https://github.com/appshubcc/Bettbox
+ * mihomo 配置覆写脚本（Smart 智能选点版）
+ * 作者：onmiui
+ * 仓库：https://github.com/onmiui/SmartScript
+ * 脚本链接：https://raw.githubusercontent.com/onmiui/SmartScript/main/SmartScript.js
+ *
+ * 本脚本由 AIsouler/MyClash 的上游脚本自动同步并改写而来：
+ * https://github.com/AIsouler/MyClash
+ * 主要改动：将 url-test 策略组替换为 smart 类型，并把「自动选择」相关命名
+ * 统一改为「Smart智能选点」。原始实现与版权归原作者 AIsouler 所有。
  */
 
 // --- 静态配置区域 ---
@@ -24,27 +28,27 @@ const ruleOptionsEnable = {
 
   // 以下为分流策略配置
   FCM: true, // GoogleFCM服务
-  YouTube: true, // YouTube视频平台
+  YouTube: false, // YouTube视频平台
   Google: true, // Google服务
   AI: true, // 国外AI服务
   GitHub: true, // GitHub代码托管平台
-  Microsoft: true, // Microsoft服务
-  Apple: true, // Apple服务
+  Microsoft: false, // Microsoft服务
+  Apple: false, // Apple服务
   Telegram: true, // Telegram通讯软件
   Steam: true, // Steam游戏平台
   TikTok: true, // TikTok视频平台
-  Twitter: true, // Twitter社交平台
+  Twitter: false, // Twitter社交平台
   Meta: true, // Meta服务
-  Line: true, // Line通讯软件
-  Netflix: true, // Netflix视频平台
-  Emby: true, // Emby媒体服务
-  PikPak: true, // PikPak网盘服务
-  Spotify: true, // Spotify音乐服务
+  Line: false, // Line通讯软件
+  Netflix: false, // Netflix视频平台
+  Emby: false, // Emby媒体服务
+  PikPak: false, // PikPak网盘服务
+  Spotify: false, // Spotify音乐服务
   Crypto: true, // 加密货币相关服务
-  PayPal: true, // PayPal支付服务
-  Patreon: true, // Patreon创作者赞助平台
-  EHentai: true, // E-Hentai网站
-  AdBlock: true, // 广告拦截
+  PayPal: false, // PayPal支付服务
+  Patreon: false, // Patreon创作者赞助平台
+  EHentai: false, // E-Hentai网站
+  AdBlock: false, // 广告拦截
 
   // 以下为非分流策略配置
   极简国内外分流模式: false, // 是否启用极简国内外分流模式
