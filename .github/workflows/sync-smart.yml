@@ -23,11 +23,56 @@ jobs:
           import pathlib
           import re
 
-          url = "https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js"
-          req = urllib.request.Request(url, headers={"User-Agent": "GitHub-Actions"})
+          UPSTREAM = "https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js"
+
+          # 本仓库自己的文件头：覆盖上游头部注释，同时保留署名与改编声明。
+          HEADER_LINES = [
+              "/**",
+              " * mihomo 配置覆写脚本（Smart 智能选点版）",
+              " * 作者：onmiui",
+              " * 仓库：https://github.com/onmiui/SmartScript",
+              " * 脚本链接：https://raw.githubusercontent.com/onmiui/SmartScript/main/SmartScript.js",
+              " *",
+              " * 本脚本由 AIsouler/MyClash 的上游脚本自动同步并改写而来：",
+              " * https://github.com/AIsouler/MyClash",
+              " * 主要改动：将 url-test 策略组替换为 smart 类型，并把「自动选择」相关命名",
+              " * 统一改为「Smart智能选点」。原始实现与版权归原作者 AIsouler 所有。",
+              " */",
+          ]
+          HEADER = "\n".join(HEADER_LINES) + "\n"
+
+          # 默认关闭的分流开关；想恢复某个开关的默认值，把它从列表里删掉即可。
+          DISABLED_OPTIONS = [
+              "YouTube",
+              "Microsoft",
+              "Apple",
+              "Twitter",
+              "Line",
+              "Netflix",
+              "Emby",
+              "PikPak",
+              "Spotify",
+              "PayPal",
+              "Patreon",
+              "EHentai",
+              "AdBlock",
+          ]
+
+          req = urllib.request.Request(UPSTREAM, headers={"User-Agent": "GitHub-Actions"})
           content = urllib.request.urlopen(req).read().decode("utf-8")
 
-          # 原地将自动选择策略组改为 Smart，不新增代理组。
+          # 1) 重写文件头。
+          content, header_count = re.subn(
+              r"\A(?:\ufeff)?\s*/\*\*.*?\*/[ \t]*\r?\n",
+              lambda _m: HEADER,
+              content,
+              count=1,
+              flags=re.S,
+          )
+          if header_count != 1:
+              raise RuntimeError("未找到文件头注释块，停止更新")
+
+          # 2) 原地将自动选择策略组改为 Smart，不新增代理组。
           pattern = re.compile(
               r"(const urlTestBaseOption\s*=\s*\{\s*"
               r"\.\.\.groupBaseOption,\s*"
@@ -55,7 +100,7 @@ jobs:
                   ):
                       raise RuntimeError("未找到预期的 urlTestBaseOption 配置，停止更新")
 
-          # 同步将基础组、极简模式组及其引用改为新名称。
+          # 3) 将基础组、极简模式组及其引用改为新名称。
           # 将启用开关名称同步为 Smart智能选点，确保默认代理组能正确引用基础组。
           content, option_count = re.subn(
               r"自动选择(?=:\s*true)",
@@ -92,10 +137,24 @@ jobs:
                   f"自动选择组名称替换数量异常：groups={group_count}, refs={ref_count}"
               )
 
+          # 4) 默认关闭指定的分流开关。
+          for key in DISABLED_OPTIONS:
+              content, changed = re.subn(
+                  rf"(?m)^([ \t]*{re.escape(key)}:[ \t]*)true\b",
+                  r"\1false",
+                  content,
+                  count=1,
+              )
+              if changed == 0 and not re.search(
+                  rf"(?m)^[ \t]*{re.escape(key)}:[ \t]*false\b",
+                  content
+              ):
+                  raise RuntimeError(f"未找到 {key} 开关，停止更新")
+
           path = pathlib.Path("SmartScript.js")
           path.parent.mkdir(parents=True, exist_ok=True)
           path.write_text(content, encoding="utf-8")
-          print("同步完成：Smart 类型及 Smart智能选点名称已应用")
+          print(f"同步完成：Smart 类型、Smart智能选点名称、{len(DISABLED_OPTIONS)} 个默认关闭开关已应用")
           PY
 
       - name: Commit changes
