@@ -2,7 +2,7 @@ name: Sync MyClash with Smart
 
 on:
   schedule:
-    - cron: "17,47 * * * *"
+    - cron: "0,30 * * * *"
   workflow_dispatch:
 
 permissions:
