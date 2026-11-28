@@ -1,0 +1,367 @@
+[YAML]
+# 用规则集重写分流：策略组与规则全部替换，proxies 保持订阅原样
+proxy-groups:
+  # ---------- 业务组（手动可切） ----------
+  - name: 默认代理
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    proxies:
+      - 节点自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 日本自动选择
+      - 新加坡自动选择
+      - 美国自动选择
+      - 其他节点自动选择
+
+  - name: AI
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    default-selected: 日本自动选择
+    proxies:
+      - 日本自动选择
+      - 节点自动选择
+      - 美国自动选择
+      - 新加坡自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 其他节点自动选择
+
+  - name: TikTok
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    default-selected: 新加坡自动选择
+    proxies:
+      - 新加坡自动选择
+      - 节点自动选择
+      - 日本自动选择
+      - 美国自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 其他节点自动选择
+
+  - name: Meta
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    default-selected: 日本自动选择
+    proxies:
+      - 日本自动选择
+      - 节点自动选择
+      - 美国自动选择
+      - 新加坡自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 其他节点自动选择
+
+  - name: Crypto
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    default-selected: 新加坡自动选择
+    proxies:
+      - 新加坡自动选择
+      - 节点自动选择
+      - 日本自动选择
+      - 美国自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 其他节点自动选择
+
+  - name: 漏网之鱼
+    type: select
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    default-selected: 默认代理
+    proxies:
+      - 默认代理
+      - 节点自动选择
+      - 香港自动选择
+      - 台湾自动选择
+      - 日本自动选择
+      - 新加坡自动选择
+      - 美国自动选择
+      - 其他节点自动选择
+      - DIRECT
+
+  # ---------- 地区自动组（隐藏，只作为选项） ----------
+  - name: 节点自动选择
+    type: smart
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    include-all: true
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  - name: 香港自动选择
+    type: smart
+    include-all: true
+    filter: '(?i)(🇭🇰|香港|港|hkg|hk|hong\s*kong)'
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  - name: 台湾自动选择
+    type: smart
+    include-all: true
+    filter: '(?i)(🇹🇼|台湾|台北|高雄|tw|taiwan)'
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  - name: 日本自动选择
+    type: smart
+    include-all: true
+    filter: '(?i)(🇯🇵|日本|东京|大阪|京都|jp|jpn|japan)'
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  - name: 新加坡自动选择
+    type: smart
+    include-all: true
+    filter: '(?i)(🇸🇬|新加坡|狮城|sg|sgp|singapore)'
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  - name: 美国自动选择
+    type: smart
+    include-all: true
+    filter: '(?i)(🇺🇸|美国|纽约|洛杉矶|旧金山|西雅图|圣何塞|芝加哥|达拉斯|us|usa|united\s*states)'
+    exclude-filter: '(?i)(群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+  # 其他节点 = 全部节点里排除掉上面五个地区
+  - name: 其他节点自动选择
+    type: smart
+    include-all: true
+    exclude-filter: '(?i)(🇭🇰|香港|hong\s*kong|🇹🇼|台湾|台北|taiwan|🇯🇵|日本|东京|大阪|japan|🇸🇬|新加坡|singapore|🇺🇸|美国|united\s*states|群|返利|官网|客服|订阅|流量|到期|过期|剩余|重置|套餐|公告|禁止)'
+    timeout: 5000
+    url: 'https://www.apple.com/library/test/success.html'
+    max-failed-times: 3
+    empty-fallback: REJECT
+    interval: 600
+    lazy: true
+    tolerance: 50
+    exclude-type: 'DIRECT|REJECT'
+    hidden: true
+
+# ---------- 规则集 ----------
+rule-providers+:
+  private:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/private.mrs'
+    path: './ruleset/private.mrs'
+  private_ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geoip/private.mrs'
+    path: './ruleset/private_ip.mrs'
+  geolocation-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/geolocation-cn.mrs'
+    path: './ruleset/geolocation-cn.mrs'
+  cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/cn.mrs'
+    path: './ruleset/cn.mrs'
+  games_cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/category-games@cn.mrs'
+    path: './ruleset/games_cn.mrs'
+  games_download_cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/category-game-platforms-download@cn.mrs'
+    path: './ruleset/games_download_cn.mrs'
+  synology:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/synology.mrs'
+    path: './ruleset/synology.mrs'
+  nvidia_cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/nvidia@cn.mrs'
+    path: './ruleset/nvidia_cn.mrs'
+  apple_cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/apple@cn.mrs'
+    path: './ruleset/apple_cn.mrs'
+  microsoft_cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/microsoft@cn.mrs'
+    path: './ruleset/microsoft_cn.mrs'
+  ai:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/category-ai-!cn.mrs'
+    path: './ruleset/ai.mrs'
+  tiktok:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/tiktok.mrs'
+    path: './ruleset/tiktok.mrs'
+  tiktok_ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geoip/tiktok.mrs'
+    path: './ruleset/tiktok_ip.mrs'
+  meta:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/meta.mrs'
+    path: './ruleset/meta.mrs'
+  facebook_ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geoip/facebook.mrs'
+    path: './ruleset/facebook_ip.mrs'
+  cryptocurrency:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/category-cryptocurrency.mrs'
+    path: './ruleset/cryptocurrency.mrs'
+  'geolocation-!cn':
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geosite/geolocation-!cn.mrs'
+    path: './ruleset/geolocation-!cn.mrs'
+  cn_ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: 'https://fastly.jsdelivr.net/gh/appshubcc/bett-rules@meta/geo/geoip/cn.mrs'
+    path: './ruleset/cn_ip.mrs'
+
+# ---------- 规则（整份替换） ----------
+rules:
+  - 'RULE-SET,private,DIRECT'
+  - 'RULE-SET,private_ip,DIRECT,no-resolve'
+  # ---- 让「电脑上的 Clash Verge」直接拨号，不被路由器二次代理 ----
+  # 只放行机场节点所在域名；换机场时改这两行即可（当前机场：routely.moe / ykkcloud.link）
+  - 'DOMAIN-SUFFIX,routely.moe,DIRECT'
+  - 'DOMAIN-SUFFIX,ykkcloud.link,DIRECT'
+  - 'RULE-SET,geolocation-cn,DIRECT'
+  - 'RULE-SET,cn,DIRECT'
+  - 'DOMAIN-SUFFIX,snssdk.com,DIRECT'
+  - 'DOMAIN-SUFFIX,byteimg.com,DIRECT'
+  - 'DOMAIN-SUFFIX,pstatp.com,DIRECT'
+  - 'DOMAIN-SUFFIX,douyinvod.com,DIRECT'
+  - 'RULE-SET,games_cn,DIRECT'
+  - 'RULE-SET,games_download_cn,DIRECT'
+  - 'RULE-SET,synology,DIRECT'
+  - 'RULE-SET,nvidia_cn,DIRECT'
+  - 'RULE-SET,apple_cn,DIRECT'
+  - 'RULE-SET,microsoft_cn,DIRECT'
+  - 'DOMAIN,international-gfe.download.nvidia.com,DIRECT'
+
+  - 'RULE-SET,ai,AI'
+  - 'RULE-SET,tiktok,TikTok'
+  - 'RULE-SET,tiktok_ip,TikTok,no-resolve'
+  - 'RULE-SET,meta,Meta'
+  - 'RULE-SET,facebook_ip,Meta,no-resolve'
+  - 'RULE-SET,cryptocurrency,Crypto'
+
+  - 'RULE-SET,geolocation-!cn,默认代理'
+  - 'RULE-SET,cn_ip,DIRECT,no-resolve'
+  - 'MATCH,漏网之鱼'
